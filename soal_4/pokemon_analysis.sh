@@ -17,7 +17,7 @@ case $2 in
     --sort)
         if [[ -z $3 ]]; then
             echo "Error: No sorting column provided"
-	    echo "Use -h or --help for more information"
+            echo "Use -h or --help for more information"
             exit 1
         fi
         case $3 in
@@ -38,7 +38,7 @@ case $2 in
     --grep)
         if [[ -z $3 ]]; then
             echo "Error: No name provided"
-	    echo "Use -h or --help for more information"
+            echo "Use -h or --help for more information"
             exit 1
         fi
         search_name=$3
@@ -48,7 +48,7 @@ case $2 in
     --filter)
         if [[ -z $3 ]]; then
             echo "Error: No filter type provided"
-	    echo "Use -h or --help for more information"
+            echo "Use -h or --help for more information"
             exit 1
         fi
         type_filter=$3
