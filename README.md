@@ -73,11 +73,13 @@
     </pre>
 2. Login
     <p>Untuk script ini akan menjalankan fungsi login sebagai mana mestinya yang dimana scriptnya tidak jauh beda dengan script register</p>
+
     * Deklarasi Database
     <pre>
     db_file="data/player.csv"
     salt="SisopSusah"
     </pre>
+
     * Menerima inputan email dan mengecek apakah email ada pada database 
     <pre>
     read -p "Enter your email: " email
@@ -106,6 +108,7 @@
     </pre>
 3. Core Monitor
     <p>Script ini untuk mencatat monitoring cpu secara realtime kedalam file log</p>
+
     * Path ke directory file log
     <pre>
     LOG_DIR="../logs"
@@ -132,6 +135,7 @@
     </pre>
 4. Frag Monitor
     <p>Script ini untuk mencatat monitoring RAM secara realtime kedalam file log</p>
+
     * Path ke directory file log
     <pre>
     LOG_DIR="../logs"
@@ -159,5 +163,98 @@
     echo -e "RAM Usage: ${ram_usage_percent}%"
     </pre>
 5. Manager Crontab
+    <p>Script ini diperuntukan untuk memanage crontab</p>
+
+    * Deklarasi direktori dan warna
+    <pre>
+    CORE_MONITOR="$(pwd)/core_monitor.sh"
+    FRAG_MONITOR="$(pwd)/frag_monitor.sh"
+
+    GREEN="\033[0;32m"
+    RED="\033[0;31m"
+    RESET="\033[0m"
+    </pre>
+
+    * Function untuk menu pada terminal
+    <pre>
+    show_menu() {
+    echo -e "\n=============================="
+    echo -e "        CRONTAB MANAGER         "
+    echo -e "==============================\n"
+    echo -e "1) Add CPU Monitoring"
+    echo -e "2) Remove CPU Monitoring"
+    echo -e "3) Add RAM Monitoring"
+    echo -e "4) Remove RAM Monitoring"
+    echo -e "5) View Active Jobs"
+    echo -e "6) Exit"
+    echo -ne "Choose an option: "}
+    </pre>
+
+    * Function untuk add cpu monitoring
+    <p>Function ini bekerja dengan mengecek apakah ada crontab yang berjalan terlebi dahulu, jika belum ada maka fungsi core monitor akan dijalankan</p>
+    <pre>
+    add_cpu_monitor() {
+    if crontab -l | grep -q "$CORE_MONITOR"; then
+        echo -e "${RED}❌ CPU Monitoring is already active.${RESET}"
+    else
+        (crontab -l 2>/dev/null; echo "* * * * * $CORE_MONITOR >> $CORE_LOG 2>&1") | crontab -
+        echo -e "${GREEN}✅ CPU Monitoring added!${RESET}"
+    fi
+    crontab -l | grep "$CORE_MONITOR"}
+    </pre>
+
+    * Function untuk remove cpu monitoring
+    <pre>
+    remove_cpu_monitor() {
+    crontab -l | grep -v "$CORE_MONITOR" | crontab -
+    echo -e "${RED}❌ CPU Monitoring removed.${RESET}"
+    crontab -l}
+    </pre>
+
+    * Function untuk add ram monitoring
+    <pre>
+    add_ram_monitor() {
+    if crontab -l | grep -q "$FRAG_MONITOR"; then
+        echo -e "${RED}❌ RAM Monitoring is already active.${RESET}"
+    else
+        (crontab -l 2>/dev/null; echo "* * * * * $FRAG_MONITOR >> $FRAG_LOG 2>&1") | crontab -
+        echo -e "${GREEN}✅ RAM Monitoring added!${RESET}"
+    fi
+    crontab -l | grep "$FRAG_MONITOR"}
+    </pre>
+
+    * Function untuk remove ram monitoring
+    <pre>
+    remove_ram_monitor() {
+    crontab -l | grep -v "$FRAG_MONITOR" | crontab -
+    echo -e "${RED}❌ RAM Monitoring removed.${RESET}"
+    crontab -l}
+    </pre>
+
+    * Function active view jobs
+    <p>Untuk melihat keseluruahn kerja crontab</p>
+    <pre>
+    view_jobs() {
+    echo -e "${GREEN}🔍 Active crontab jobs:${RESET}"
+    crontab -l}
+    </pre>
+
+    *Script ini digunakan menjalankan function menu
+    <pre>
+    while true; do
+    show_menu
+    read choice
+    case $choice in
+        1) add_cpu_monitor ;;
+        2) remove_cpu_monitor ;;
+        3) add_ram_monitor ;;
+        4) remove_ram_monitor ;;
+        5) view_jobs ;;
+        6) echo -e "${RED}Exiting...${RESET}"; exit ;;
+        *) echo -e "${RED}❌ Invalid Option! Try Again.${RESET}" ;;
+    esac
+    done
+    </pre>
+6. Terminal    
 # Soal 3
 # Soal 4
