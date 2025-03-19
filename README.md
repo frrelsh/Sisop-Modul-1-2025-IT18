@@ -1,2 +1,5 @@
-# Sisop-Modul-1-2025-IT18
-Praktikum Sisop 2025 Modul 1
+# Sisop-Modul-1-2025-IT18 
+# Soal 1
+# Soal 2
+# Soal 3
+# Soal 4
