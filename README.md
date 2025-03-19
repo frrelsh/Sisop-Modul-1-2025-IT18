@@ -94,7 +94,7 @@
     echo ""
     </pre>
 
-    *Menjalankan fungsi hash dengan menyamakan hash dari input login dengan database
+    * Menjalankan fungsi hash dengan menyamakan hash dari input login dengan database
     <pre>
     input_hash=$(echo -n "$salt$password" | sha256sum | awk '{print $1}')
     if [[ "$input_hash" == "$stored_hash" ]]; then
@@ -105,7 +105,59 @@
     fi
     </pre>
 3. Core Monitor
+    <p>Script ini untuk mencatat monitoring cpu secara realtime kedalam file log</p>
+    * Path ke directory file log
+    <pre>
+    LOG_DIR="../logs"
+    LOG_FILE="$LOG_DIR/core.log"
+    </pre>
+
+    * Time stamp
+    <pre>
+    time=$(date +"%Y-%m-%d %H:%M:%S")
+    </pre>
+
+    * Monitoring CPU
+    <pre>
+    cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+    cpu_model=$(grep "model name" /proc/cpuinfo | head -1 | cut -d ':' -f2 | sed 's/^ *//')
+    </pre>
+
+    * Entry ke file log, dan menampilkan hasilnya ke terminal
+    <pre>
+    log_entry="[$time] - Core Usage [$cpu_usage%] - Terminal Model [$cpu_model]"
+    echo "$log_entry" >> "$LOG_FILE"
+    echo -e "${YELLOW}CPU Model: ${RESET}$cpu_model"
+    echo -e "${RED}CPU Usage: ${RESET}$cpu_usage%"
+    </pre>
 4. Frag Monitor
+    <p>Script ini untuk mencatat monitoring RAM secara realtime kedalam file log</p>
+    * Path ke directory file log
+    <pre>
+    LOG_DIR="../logs"
+    LOG_FILE="$LOG_DIR/frag.log"
+    </pre>
+
+    * Time stamp
+    <pre>
+    time=$(date +"%Y-%m-%d %H:%M:%S")
+    </pre>
+
+    * Monitoring RAM
+    <pre>
+    ram_total=$(free -m | awk '/Mem:/ {print $2}')   
+    ram_used=$(free -m | awk '/Mem:/ {print $3}')    
+    ram_usage_percent=$(free | awk '/Mem:/ {printf "%.2f", $3/$2 * 100}')   
+    </pre>
+
+    * Entry ke file log, dan menampilkan hasilnya ke terminal
+    <pre>
+    log_entry="[$time] - Fragment Usage [$ram_usage_percent%] - Fragment Count [$ram_used MB] - Details [Total: $ram_total MB, Available: $ram_available MB]"
+    echo "$log_entry" >> "$LOG_FILE"
+    echo -e "Total RAM: ${ram_total} MB"
+    echo -e "Used RAM: ${ram_used} MB"
+    echo -e "RAM Usage: ${ram_usage_percent}%"
+    </pre>
 5. Manager Crontab
 # Soal 3
 # Soal 4
