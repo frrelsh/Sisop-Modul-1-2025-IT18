@@ -24,7 +24,13 @@ while true; do
             bash "$REGISTER_SCRIPT"
             ;;
         2)
-            bash "$LOGIN_SCRIPT"
+            if bash "$LOGIN_SCRIPT"; then
+                # Jika login berhasil, langsung buka CRONTAB_SCRIPT
+                bash "$CRONTAB_SCRIPT"
+            else
+                echo "Login gagal. Silakan coba lagi."
+                read -p "Tekan Enter untuk melanjutkan..."
+            fi
             ;;
         3)
             bash "$CRONTAB_SCRIPT"
