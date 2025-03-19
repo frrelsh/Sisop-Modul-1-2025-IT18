@@ -239,7 +239,7 @@
     crontab -l}
     </pre>
 
-    *Script ini digunakan menjalankan function menu
+    * Script ini digunakan menjalankan function menu
     <pre>
     while true; do
     show_menu
@@ -256,5 +256,53 @@
     done
     </pre>
 6. Terminal    
+    <p>Script ini seperti home menu untuk soal ini</p>
+
+    * Deklarasi ke masing" script
+    <pre>
+    REGISTER_SCRIPT="register.sh"
+    LOGIN_SCRIPT="login.sh"
+    CRONTAB_SCRIPT="./scripts/manager.sh"
+    </pre>
+
+    * Function menu
+    <pre>
+    show_menu() {
+    clear
+    echo "=============================="
+    echo "     Welcome to Terminal      "
+    echo "=============================="
+    echo "1. Register"
+    echo "2. Login"
+    echo "3. Crontab Manager"
+    echo "4. Exit"
+    echo "=============================="}
+    </pre>
+
+    * Script ini menjalankan function menu
+    <pre>
+    while true; do
+    show_menu
+    read -p "Pilih opsi (1-4): " choice
+
+    case "$choice" in
+        1)
+            bash "$REGISTER_SCRIPT"
+            ;;
+        2)
+            bash "$LOGIN_SCRIPT"
+            ;;
+        3)
+            bash "$CRONTAB_SCRIPT"
+            ;;
+        4)
+            echo "Goodbye!"
+            exit 0
+            ;;
+    esac
+    done
+    </pre>
+
+    <h3>Note asistensi untuk soal 2</h2>
 # Soal 3
 # Soal 4
