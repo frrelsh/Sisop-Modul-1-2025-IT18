@@ -64,10 +64,10 @@ fi
  <pre>
      awk -F',' 'NR > 1 && $5 > "2023-12-31" && ($9 ~ /Asia/) {count[$4]++}
  </pre>
- 
+
 # Soal 2
 
-0. Pada soal ini diperintahkan untuk membuat sebuah shell script yang memiliki fitur register, login, manager crontab dan terminal. dengan direktori sebagai berikut 
+0. Pada soal ini diperintahkan untuk membuat sebuah shell script yang memiliki fitur register, login, manager crontab dan terminal. dengan direktori sebagai berikut <br>
     ├── login.sh <br>
     ├── register.sh <br>
     ├── scripts/ <br>
