@@ -375,3 +375,4 @@
     </pre>
 # Soal 3
 # Soal 4
+Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.sh dengan fitur melihat summary dari data, mengurutkan pokemon berdasarkan kolom, mencari nama pokemon tertentu, mencari pokemon berdasarkan filter nama type, error handling, dan help screen.
