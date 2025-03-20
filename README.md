@@ -543,6 +543,9 @@ else
 fi
 </pre>
 
+ <h3>Note asistensi untuk soal 2</h2>
+ * no 3 seharusnya progress bar yg di tampilkan tidak membuat line baru tapi memenuhi 1 line di Terminal
+
 # Soal 4
 Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.sh dengan fitur melihat summary dari data, mengurutkan pokemon berdasarkan kolom, mencari nama pokemon tertentu, mencari pokemon berdasarkan filter nama type, error handling, dan help screen.
 
