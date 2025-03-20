@@ -1,5 +1,69 @@
 # Sisop-Modul-1-2025-IT18 
 # Soal 1
+0. Soal ini diperintahkan untuk melakukan beberapa hal yang diminta oleh soal, bertujuan untuk menganalisis data dari file CSV menggunakan awk, dengan berbagai operasi seperti menghitung jumlah data, menghitung rata-rata, mencari nilai tertinggi, dan menganalisis kategori populer
+   
+1. Menghitung jumlah buku yang dibaca oleh "Chris Hemsworth"
+<pre>
+    #!/bin/bash
+
+wget -q "https://drive.usercontent.google.com/u/0/uc?id=1l8fsj5LZLwXBlHaqhfJVjz_T0p7EJjqV&export=download" -O reading_data.csv
+</pre>
+* command untuk mendowload file data buku dari link
+<pre>
+if [ "$1" == "soalA" ]; then
+    awk -F',' '$2 ~ /Chris Hemsworth/ {++n} END {print "Chris Hemsworth membaca", n, "buku."}' reading_data.csv
+</pre>
+* Kode ini menghitung jumlah buku yang dibaca oleh Chris Hemsworth dalam file reading_data.csv menggunakan awk. Jika argumen yang diberikan adalah "soalA", maka kode akan mencari semua baris yang mengandung nama "Chris Hemsworth" di kolom kedua dan menghitung jumlahnya, lalu mencetak hasilnya
+
+
+2. Menghitung rata-rata durasi membaca menggunakan "Tablet"
+   <pre>
+       elif [ "$1" == "soalB" ]; then
+    awk -F',' '$8 ~ /Tablet/ {total+=$6; n++} END {
+        if (n > 0) print "Rata-rata durasi membaca dengan Tablet adalah", total/n, "menit."; 
+        else print "Tidak ada data membaca dengan Tablet."}' reading_data.csv
+   </pre>
+   * Script ini mencari semua entri di reading_data.csv yang mencatat "Tablet" sebagai metode membaca, lalu menghitung rata-rata durasi membaca dari kolom yang sesuai. Jika tidak ada data yang cocok, akan menampilkan pesan bahwa tidak ada data tersedia
+
+3. Mencari pembaca dengan rating tertinggi
+<pre>
+    elif [ "$1" == "soalC" ]; then
+    # Mencari pembaca dengan rating tertinggi
+    awk -F',' 'NR > 1 {if ($7 > max) {max = $7; name = $2; book = $3}} 
+    END {print "Pembaca dengan rating tertinggi:", name, "-", book, "-", max}' reading_data.csv
+</pre>
+* Script ini mencari pembaca yang memberikan rating tertinggi pada buku di reading_data.csv. Dengan membandingkan nilai rating di setiap baris, script menyimpan nama pembaca dan judul buku dengan rating tertinggi, lalu mencetak hasilnya
+
+4. Menemukan genre paling populer di Asia setelah 2023
+<pre>elif [ "$1" == "soalD" ]; then
+    # Genre paling populer di Asia setelah 2023
+    awk -F',' 'NR > 1 && $5 > "2023-12-31" && ($9 ~ /Asia/) {count[$4]++} 
+    END {
+        max_genre = ""; max_count = 0;
+        for (genre in count) {
+            if (count[genre] > max_count) {
+                max_count = count[genre];
+                max_genre = genre;
+            }
+        }
+        print "Genre paling populer di Asia setelah 2023 adalah", max_genre, "dengan", max_count, "buku."
+    }' reading_data.csv
+</pre>
+* Script ini mencari genre buku yang paling sering dibaca di Asia setelah 31 Desember 2023. Dengan memfilter data berdasarkan tanggal dan lokasi, script menghitung jumlah kemunculan setiap genre dan menentukan genre yang paling populer, lalu mencetak hasilnya
+
+<pre>
+    else
+    echo "Usage: $0 {soalA|soalB|soalC|soalD}"
+fi
+
+</pre>
+* Bagian ini menangani kasus ketika argumen yang diberikan tidak sesuai dengan opsi yang tersedia (soalA, soalB, soalC, atau soalD). Jika argumen tidak valid, maka akan mencetak pesan penggunaan yang memberi tahu cara menjalankan script dengan benar
+
+ <h3>Note asistensi untuk soal 1</h2>
+ * pada command ini kolom $9 yg menunjukan asal buku tertukar dengan $4 yg menunjukan genre sehingga output yg diberikan salah
+ <pre>
+     awk -F',' 'NR > 1 && $5 > "2023-12-31" && ($9 ~ /Asia/) {count[$4]++}
+ </pre>
 # Soal 2
 0. Pada soal ini diperintahkan untuk membuat sebuah shell script yang memiliki fitur register, login, manager crontab, dan terminal. dengan direktori sebagai berikut <br>
     ├── login.sh <br>
@@ -543,7 +607,7 @@ else
 fi
 </pre>
 
- <h3>Note asistensi untuk soal 2</h2>
+ <h3>Note asistensi untuk soal 3</h2>
  * no 3 seharusnya progress bar yg di tampilkan tidak membuat line baru tapi memenuhi 1 line di Terminal
 
 # Soal 4
