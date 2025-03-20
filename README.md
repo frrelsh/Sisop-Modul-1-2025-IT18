@@ -401,7 +401,7 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
    Case untuk menampilkan nama Pokemon dengan Usage% dan RawUsage paling tinggi.
    * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv --info </pre>
 
-4. Fitur Sort
+3. Fitur Sort
    <pre>
     --sort)
         if [[ -z $3 ]]; then
@@ -424,9 +424,10 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
         (head -n 1 "$file" && tail -n +2 "$file" | sort -t',' -k$column,${column}nr)
         ;;
     </pre>
-    Case untuk mengurutkan Pokemon berdasarkan kolom yanng dipilih.
+    Case untuk mengurutkan Pokemon berdasarkan kolom yang dipilih.
+     * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv --sort usage </pre>
 
- 5. Fitur Grep
+ 4. Fitur Grep
     <pre>
     --grep)
          if [[ -z $3 ]]; then
@@ -439,8 +440,9 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
          ;;
     </pre>
     Case untuk mencari nama Pokemon tertentu.
+     * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv --grep malamar </pre>
 
- 6. Fitur Filter
+ 5. Fitur Filter
     <pre>
      --filter)
         if [[ -z $3 ]]; then
@@ -452,8 +454,9 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
         (head -n 1 "$file" && tail -n +2 "$file" | awk -F',' -v type="$type_filter" '$4 == type || $5 == type' | sort ->        ;;    
     </pre>
     Case untuk mencari atau memfilter Pokemon berdasarkan tipenya.
+     * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv --filter Dark </pre>
 
- 7. Fitur Help Screen
+ 6. Fitur Help Screen
     <pre>
     -h|--help)
         cat << EOF
@@ -478,8 +481,9 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
      EOF
      </pre>
      Case untuk menampilkan help screen.
+      * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv -h </pre>
 
- 8. Error handling
+ 7. Error handling
     <pre>
     if [[ $# -lt 2 ]]; then
     echo "Error: Invalid number of arguments."
@@ -488,3 +492,4 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
     fi    
     </pre>
     Error handling akan muncul apabila kita memberikan argumen yang kurang dari dua.
+     * Misal: <pre> ./pokemon_analysis.sh pokemon_usage.csv </pre>
