@@ -374,6 +374,175 @@
             ;;
     </pre>
 # Soal 3
+0. Diminta membuat shell script untuk menjalankan perintah ./dsotm.sh --play="<Track>", dengan fitur:
+1. Speak to Me: Menampilkan word of affirmation setiap detik dari API
+<pre>
+    #!/bin/bash
+
+clear
+
+speak_to_me() {
+    while true; do
+        echo " $(curl -s https://www.affirmations.dev/ | jq -r '.affirmation')"
+        sleep 1
+    done
+}
+</pre>
+
+<pre>
+#!/bin/bash
+clear
+</pre>
+* Menentukan bahwa script ini akan dijalankan dengan Bash & Membersihkan terminal sebelum script berjalan
+
+<pre>
+    speak_to_me() {
+    while true; do
+        echo " $(curl -s https://www.affirmations.dev/ | jq -r '.affirmation')"
+        sleep 1
+    done
+</pre>
+Fungsi ini menampilkan word of affirmation setiap detik
+* while true; do ... done → Loop tak terbatas, jalan terus sampai dihentikan
+* curl -s https://www.affirmations.dev/ → Ambil data dari API
+* jq -r '.affirmation' → Ekstrak teks afirmasi dari JSON
+* sleep 1 → Tunggu 1 detik sebelum menampilkan afirmasi berikutnya
+
+2. On the Run: Progress bar dengan interval random (0.1-1 detik)
+<pre>
+on_the_run() {
+    local width=$(tput cols)
+    local progress=0
+    local max=100
+</pre>
+* Fungsi on_the_run ini bikin progress bar di terminal. Lebar bar disesuaikan dengan ukuran terminal (tput cols). Progress dimulai dari 0 hingga 100%, dan nanti bakal bertambah secara bertahap dengan jeda waktu yang random
+
+<pre>
+    while [ $progress -le $max ]; do
+        sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
+</pre>
+* Loop ini jalan terus selama progress belum lebih dari max (100)
+Di dalam loop, ada sleep dengan durasi random antara 0.1 hingga 1 detik. Ini dibuat pakai awk, yang menghasilkan angka acak dalam rentang tersebut
+
+<pre>
+        local filled=$((progress * width / max))
+        printf "\r[%-*s] %d%%" "$width" "$(printf '%*s' "$filled" '' | tr ' ' '#')" "$progress"
+
+        ((progress += 5))
+    done
+    
+    echo -e "\nDone!"
+}
+</pre>
+Bagian ini menampilkan progress bar dengan persentase
+* local filled=$((progress * width / max)) → Hitung panjang progress bar berdasarkan lebar terminal
+* printf "\r[%-*s] %d%%" "$width" "$(printf '%*s' "$filled" '' | tr ' ' '#')" "$progress"
+* \r → Menghapus baris sebelumnya (overwrite)
+* [%-*s] → Format bar dengan panjang width, diisi dengan #
+* %d%% → Menampilkan persentase progress
+* ((progress += 5)) → Menambah progress 5% setiap iterasi
+* echo -e "\nDone!" → Menampilkan "Done!" setelah progress 100%
+
+
+3. Time: Live clock menampilkan tanggal & waktu yang diperbarui setiap detik
+<pre>
+show_time() {
+    while true; do
+        clear
+        echo "==== LIVE CLOCK ===="
+        echo " "
+        date +"%Y-%m-%d %H:%M:%S"
+        sleep 1
+    done
+}
+</pre>
+Bagian ini menampilkan jam live (real-time clock) di terminal
+* while true; do → Loop tak terbatas agar jam terus diperbarui
+* clear → Membersihkan layar sebelum menampilkan jam baru
+* echo "==== LIVE CLOCK ====" → Menampilkan header
+* date +"%Y-%m-%d %H:%M:%S" → Menampilkan tanggal dan waktu dalam format YYYY-MM-DD HH:MM:SS
+* sleep 1 → Menunggu 1 detik sebelum memperbarui tampilan
+
+4. Money: Simulasi efek cmatrix dengan simbol mata uang
+<pre>
+show_money() {
+    CURRENCIES=("💲" "€" "£" "¥" "₹" "₿" "₩" "¢" "₣" "₴")
+
+    clear
+    tput civis
+</pre>
+Bagian ini membuat efek "matrix" dengan simbol mata uang di terminal
+* CURRENCIES=("💲" "€" "£" "¥" "₹" "₿" "₩" "¢" "₣" "₴") → Daftar simbol mata uang yang akan ditampilkan
+* clear → Membersihkan layar sebelum mulai menampilkan efek
+* tput civis → Menyembunyikan kursor agar tampilan lebih rapi
+
+<code><pre>
+for ((i=0; i<HEIGHT; i++)); do
+    LINE=""
+    for ((j=0; j<WIDTH; j++)); do
+        if (( RANDOM % 10 == 0 )); then
+            LINE+="${CURRENCIES[RANDOM % ${#CURRENCIES[@]}]}"
+        else
+            LINE+=" "
+        fi
+    done
+    echo -e "$LINE"
+done
+sleep 0.1
+clear
+done
+</code></pre>
+* Kode ini mencetak pola acak di terminal dengan efek animasi. Loop luar mengontrol tinggi tampilan, sedangkan loop dalam mengisi setiap baris dengan simbol atau spasi secara acak. Setelah mencetak satu baris, program menunggu sebentar (sleep 0.1) lalu menghapus layar (clear) untuk menciptakan efek bergerak seperti hujan kode           
+Loop ini membentuk tampilan "hujan" simbol mata uang di terminal:
+* Loop baris → Mengisi terminal secara vertikal (tinggi HEIGHT).
+* Loop kolom → Mengisi tiap baris secara horizontal (lebar WIDTH).
+* Random simbol → Dengan peluang 10%, karakter diisi simbol mata uang, sisanya spasi.
+* Cetak ke terminal → Setiap baris hasil loop langsung ditampilkan.
+* Efeknya bikin tampilan seperti "matrix rain" tapi pakai simbol uang.
+        
+
+5. Brain Damage: Task manager di terminal yang diperbarui setiap detik
+<pre>
+brain_damage() {
+    clear
+    tput civis 
+
+    while true; do
+        clear
+        echo "PID   USER      %CPU  %MEM  COMMAND"
+        echo "-----------------------------------"
+        ps -eo pid,user,%cpu,%mem,comm --sort=-%cpu | head -n 11
+        sleep 1
+    done
+}
+</pre>
+* Fungsi brain_damage() ini adalah sebuah skrip Bash yang secara terus-menerus menampilkan daftar proses yang menggunakan CPU tertinggi di sistem
+
+6.Bagian ini adalah struktur conditional dalam shell script yang menentukan fungsi mana yang akan dijalankan berdasarkan argumen yang diberikan saat menjalankan script.
+<pre>
+trap "tput cnorm; clear; exit" SIGINT SIGTERM
+
+if [ "$1" == "--play=speak_to_me" ]; then
+    speak_to_me
+elif [ "$1" == "--play=on_the_run" ]; then
+    on_the_run
+elif [ "$1" == "--play=show_time" ]; then
+    show_time
+elif [ "$1" == "--play=show_money" ]; then
+    show_money
+elif [ "$1" == "--play=brain_damage" ]; then
+    brain_damage
+else
+</pre>
+
+7. Fungsinya untuk menangani input yang tidak valid. Kalau pengguna menjalankan script tanpa argumen yang sesuai (--play=<track>), maka program akan menampilkan pesan penggunaan yang benar dan daftar track yang tersedia, lalu keluar dengan kode error (exit 1)
+<pre>
+    echo "Usage: $0 --play=<track>"
+    echo "Available tracks: speak_to_me, on_the_run, show_time, show_money, brain_damage"
+    exit 1
+fi
+</pre>
+
 # Soal 4
 Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.sh dengan fitur melihat summary dari data, mengurutkan pokemon berdasarkan kolom, mencari nama pokemon tertentu, mencari pokemon berdasarkan filter nama type, error handling, dan help screen.
 
