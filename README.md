@@ -399,8 +399,9 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
     ;;
    </pre>
    Case untuk menampilkan nama Pokemon dengan Usage% dan RawUsage paling tinggi.
+   * Cara mengakses: <pre> ./pokemon_analysis.sh pokemon_usage.csv --info </pre>
 
-3. Fitur Sort
+4. Fitur Sort
    <pre>
     --sort)
         if [[ -z $3 ]]; then
@@ -425,7 +426,7 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
     </pre>
     Case untuk mengurutkan Pokemon berdasarkan kolom yanng dipilih.
 
- 4. Fitur Grep
+ 5. Fitur Grep
     <pre>
     --grep)
          if [[ -z $3 ]]; then
@@ -439,7 +440,7 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
     </pre>
     Case untuk mencari nama Pokemon tertentu.
 
- 5. Fitur Filter
+ 6. Fitur Filter
     <pre>
      --filter)
         if [[ -z $3 ]]; then
@@ -452,7 +453,7 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
     </pre>
     Case untuk mencari atau memfilter Pokemon berdasarkan tipenya.
 
- 6. Fitur Help Screen
+ 7. Fitur Help Screen
     <pre>
     -h|--help)
         cat << EOF
@@ -478,7 +479,7 @@ Pada soal ini kita diminta  untuk membuat script yang bernama pokemon_analysis.s
      </pre>
      Case untuk menampilkan help screen.
 
- 7. Error handling
+ 8. Error handling
     <pre>
     if [[ $# -lt 2 ]]; then
     echo "Error: Invalid number of arguments."
