@@ -1,8 +1,16 @@
 # Sisop-Modul-1-2025-IT18 
 # Soal 1
 # Soal 2
-0. Pada soal ini diperintahkan untuk membuat sebuah shell script yang memiliki fitur register, login, manager crontab, dan terminal 
-1. Register
+0. Pada soal ini diperintahkan untuk membuat sebuah shell script yang memiliki fitur register, login, manager crontab, dan terminal. dengan direktori sebagai berikut <br>
+    ├── login.sh <br>
+    ├── register.sh <br>
+    ├── scripts/ <br>
+    │   ├── core_monitor.sh <br>
+    │   ├── frag_monitor.sh <br>
+    │   └── manager.sh <br>
+    └── terminal.sh <br>
+
+2. Register
     <p>Pada script register ada beberapa function yang dijalankan di script ini, seperti validasi email dan validasi password</p>
 
     * Deklarasi Database
@@ -71,7 +79,7 @@
     echo "$email,$username,$hashed_password" >> "$db_file"
     echo "Registration successful!"
     </pre>
-2. Login
+3. Login
     <p>Untuk script ini akan menjalankan fungsi login sebagai mana mestinya yang dimana scriptnya tidak jauh beda dengan script register</p>
 
     * Deklarasi Database
@@ -106,7 +114,7 @@
         exit 1
     fi
     </pre>
-3. Core Monitor
+4. Core Monitor
     <p>Script ini untuk mencatat monitoring cpu secara realtime kedalam file log</p>
 
     * Path ke directory file log
@@ -133,7 +141,7 @@
     echo -e "${YELLOW}CPU Model: ${RESET}$cpu_model"
     echo -e "${RED}CPU Usage: ${RESET}$cpu_usage%"
     </pre>
-4. Frag Monitor
+5. Frag Monitor
     <p>Script ini untuk mencatat monitoring RAM secara realtime kedalam file log</p>
 
     * Path ke directory file log
@@ -162,7 +170,7 @@
     echo -e "Used RAM: ${ram_used} MB"
     echo -e "RAM Usage: ${ram_usage_percent}%"
     </pre>
-5. Manager Crontab
+6. Manager Crontab
     <p>Script ini diperuntukan untuk memanage crontab</p>
 
     * Deklarasi direktori dan warna
@@ -255,7 +263,7 @@
     esac
     done
     </pre>
-6. Terminal    
+7. Terminal    
     <p>Script ini seperti home menu untuk soal ini</p>
 
     * Deklarasi ke masing" script
